@@ -110,17 +110,40 @@ th {
     margin-right: auto;
 }
 
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=38204B&bcolor=FFEEF2*/
+.p_dText_lBack {
+    background-color: #FFEEF2;
+    color: #38204B;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FCE762*/
+.btn {
+    background-color: #FCE762;
+    color: #0B1A36;
+    border: 2px solid #0B1A36;
+    font-size: medium;
+    padding: 10px;
+}
+
+.btn:hover {
+    font-weight: bold;
+}
+
 /* homepage styling */
 
 body {
     background-color: #801A86;
 }
 
-/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=38204B&bcolor=FFEEF2*/
 #welcomeBlurb {
-    background-color: #FFEEF2;
-    color: #38204B;
     margin: 5%;
     width: 40%;
     padding: 3%;
 }
+
+#slogan {
+    font-family: "Lucida Calligraphy", cursive;
+}
+
