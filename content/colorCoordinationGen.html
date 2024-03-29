@@ -40,13 +40,13 @@
         </div>
 
     <div class="centered-button-container">
-        <button class="btn" onclick="">Print Button</button><!-- this need the print function put in onclick-->
-    </div> <!-- this does nothing right now-->
+        <button onclick="openPrintPreview()">Generate Print Preview</button>
+    </div> 
+    <script>
+        function openPrintPreview() {
+            window.open('printPreview.html', '_blank');
+        }
+    </script>
 
-    <footer class="p_dText_lBack">
-        <p>Color Aid Company<br>
-            Quintin Pavilonis - Kade Engle - Chase Wagner
-        </p>
-    </footer>
 </body>
 </html>
