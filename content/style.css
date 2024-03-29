@@ -17,6 +17,7 @@ h1 {
     margin-top: 100px; 
     margin-bottom: 30px;
     padding-bottom: 60px;
+    background-color: white;
 }
 
 .input-field {
@@ -63,3 +64,123 @@ th {
     left: 0;
     right: 0;
 }
+
+/* more color coor gen styling */
+/* end coor gen styling */
+
+/* nav bar start */
+
+.navbar ul {
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: #00615E;
+}
+
+.navbar li {
+    list-style-type: none;
+    display: inline-block;
+}
+
+/* contrast:  https://webaim.org/resources/contrastchecker/?fcolor=FFFFFF&bcolor=00615E*/
+.navbar li a {
+    color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=50FFB1 */
+.navbar li a:hover {
+    background-color: #50FFB1;
+    color: #0B1A36;
+    font-weight: bold;
+}
+
+/* nav bar end */
+
+/* gen classes */
+.float_left {
+    float: left;
+}
+
+.float_right {
+    float: right;
+}
+
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=38204B&bcolor=FFEEF2*/
+.p_dText_lBack {
+    background-color: #FFEEF2;
+    color: #38204B;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FCE762*/
+.btn {
+    background-color: #FCE762;
+    color: #0B1A36;
+    border: 2px solid #0B1A36;
+    font-size: medium;
+    padding: 10px;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FBE44B */
+.btn:hover {
+    font-weight: bold;
+    background-color: #FBE44B;
+    box-shadow: 0 12px 16px 0 #FFADC0, 0 17px 50px 0 #FFADC0;
+}
+
+footer {
+    text-align: center;
+    margin: auto;
+    clear: both;
+    padding:5px;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
+.heading {
+    color:#FFEEF2;
+    font-family: "Lucida Calligraphy", cursive;
+}
+
+/*gen end*/
+
+/* homepage styling */
+
+body {
+    background-color: #801A86;
+}
+
+#welcomeBlurb {
+    margin: 5%;
+    width: 40%;
+    padding: 3%;
+}
+
+.title {
+    font-family: "Lucida Calligraphy", cursive;
+    font-size: x-large;
+}
+
+/* about styling */
+.bio {
+    padding: 40px;
+}
+
+.bio_image {
+    border:2px solid #801A86;
+}
+
+#chase  {
+    position:relative;
+}
+/* end about styling */
+

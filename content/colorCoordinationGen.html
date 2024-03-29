@@ -8,20 +8,20 @@
     <script src="script.js"></script>
 </head>
 <body>
+    <!--<img src="./content.logo_____" alt="image of Color Aid logo">-->
     <div class="navbar">
-        <a href="../index.html"> Back to Homepage</a>
-            &nbsp;
-            &nbsp;
-        </a>
-        <a href="about.html">About Me Page</a> 
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
     </div>
-    <h1> COLOR COORDINATION GENERATOR PAGE!</h1>
+    <h1 class="heading"> Color Coordination Generator</h1>
     <div class="container">
         <div class="table-container">
             <div class="table_one">
                 <label for="rowCount">Number of Colors:</label>
                 <input type="text" id="rowCount" class="input-field" placeholder="Enter a number (1-10)">
-                <button onclick="updateColorTable()">Update Color Table</button>
+                <button class="btn" onclick="updateColorTable()">Update Color Table</button>
                 <table>
                     <tbody id="colorTableBody">
                         <!-- this is where table cells will appear -->
@@ -32,7 +32,7 @@
             <div class="table_two">
                 <label for="tableTwoRowCount">Number of Rows / Columns:</label>
                 <input type="text" id="tableTwoRowCount" class="input-field" placeholder="Enter a number (1-26)">
-                <button onclick="updateAlphabetTable()">Update Alphabet Table</button>
+                <button class="btn" onclick="updateAlphabetTable()">Update Alphabet Table</button>
                 <table id="alphabetTable"> 
                     <!-- this is where table cells will appear -->    
                 </table>
@@ -40,9 +40,13 @@
         </div>
 
     <div class="centered-button-container">
-        <button onclick="">Print Button</button><!-- this need the print function put in onclick-->
+        <button class="btn" onclick="">Print Button</button><!-- this need the print function put in onclick-->
     </div> <!-- this does nothing right now-->
 
-
+    <footer class="p_dText_lBack">
+        <p>Color Aid Company<br>
+            Quintin Pavilonis - Kade Engle - Chase Wagner
+        </p>
+    </footer>
 </body>
 </html>
