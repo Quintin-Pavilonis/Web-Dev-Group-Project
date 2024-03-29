@@ -127,8 +127,11 @@ th {
     padding: 10px;
 }
 
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FBE44B */
 .btn:hover {
     font-weight: bold;
+    background-color: #FBE44B;
+    box-shadow: 0 12px 16px 0 #FFADC0, 0 17px 50px 0 #FFADC0;
 }
 
 /* homepage styling */
@@ -147,3 +150,12 @@ body {
     font-family: "Lucida Calligraphy", cursive;
 }
 
+/* bio styling */
+.bio {
+    padding: 80px 50px;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
+#about_greet {
+    color:#FFEEF2;
+}
