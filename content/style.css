@@ -167,16 +167,20 @@ body {
 
 .title {
     font-family: "Lucida Calligraphy", cursive;
+    font-size: x-large;
 }
 
 /* about styling */
 .bio {
-    padding: 80px 50px;
+    padding: 40px;
 }
 
 .bio_image {
     border:2px solid #801A86;
 }
 
+#chase  {
+    position:relative;
+}
 /* end about styling */
 
