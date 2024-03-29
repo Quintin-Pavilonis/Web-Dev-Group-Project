@@ -17,6 +17,7 @@ h1 {
     margin-top: 100px; 
     margin-bottom: 30px;
     padding-bottom: 60px;
+    background-color: white;
 }
 
 .input-field {
@@ -63,6 +64,9 @@ th {
     left: 0;
     right: 0;
 }
+
+/* more color coor gen styling */
+/* end coor gen styling */
 
 /* nav bar start */
 
@@ -134,6 +138,21 @@ th {
     box-shadow: 0 12px 16px 0 #FFADC0, 0 17px 50px 0 #FFADC0;
 }
 
+footer {
+    text-align: center;
+    margin: auto;
+    clear: both;
+    padding:5px;
+}
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
+.heading {
+    color:#FFEEF2;
+    font-family: "Lucida Calligraphy", cursive;
+}
+
+/*gen end*/
+
 /* homepage styling */
 
 body {
@@ -146,16 +165,18 @@ body {
     padding: 3%;
 }
 
-#slogan {
+#heading {
     font-family: "Lucida Calligraphy", cursive;
 }
 
-/* bio styling */
+/* about styling */
 .bio {
     padding: 80px 50px;
 }
 
-/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
-#about_greet {
-    color:#FFEEF2;
+.bio_image {
+    border:2px solid #801A86;
 }
+
+/* end about styling */
+
