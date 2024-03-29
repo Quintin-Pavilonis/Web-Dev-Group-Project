@@ -11,6 +11,7 @@ h1 {
     width: 90%;
     margin: auto;
     padding-top: 50px;
+    margin-bottom: 50px;
 }
 
 .table_two {
@@ -60,7 +61,7 @@ th {
 .centered-button-container {
     text-align: center;
     position: absolute;
-    bottom: 20px; 
+    bottom: 10px; 
     left: 0;
     right: 0;
 }
@@ -122,6 +123,7 @@ th {
     font-size: medium;
 }
 
+
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FCE762*/
 .btn {
     background-color: #FCE762;
@@ -142,7 +144,12 @@ footer {
     text-align: center;
     margin: auto;
     clear: both;
-    padding:5px;
+    padding:2px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50;
 }
 
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
@@ -177,10 +184,48 @@ body {
 
 .bio_image {
     border:2px solid #801A86;
+    margin-right: 20px;
+    
 }
 
 #chase  {
     position:relative;
+    height: 180px;
+    margin-left: 75px; /* change both margins to make bio containers diff width*/
+    margin-right: 75px;
+    
 }
+
+#chase p {
+    margin-top: 40px;
+}
+
+#quintin  {
+    position:relative;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    height: 180px;
+    margin-left: 75px;
+    margin-right: 75px;
+}
+
+#quintin p {
+    margin-top: 40px;
+}
+
+#kade  {
+    position:relative;
+    margin-top: 35px;
+    margin-bottom: 120px;
+    height: 180px;
+    margin-left: 75px;
+    margin-right: 75px;
+}
+
+#kade p {
+    margin-top: 40px;
+}
+
+
 /* end about styling */
 
