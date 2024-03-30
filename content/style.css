@@ -69,7 +69,7 @@ th {
 
 .centered-button-container {
     text-align: center;
-    position: absolute;
+    position: relative;
     bottom: 10px; 
     left: 0;
     right: 0;
@@ -159,6 +159,7 @@ footer {
     bottom: 0;
     width: 100%;
     height: 50;
+    border-top: #00615E;
 }
 
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
@@ -166,6 +167,14 @@ footer {
     color:#FFEEF2;
     font-family: "Lucida Calligraphy", cursive;
 }
+
+#header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30vh;
+}  
 
 /*gen end*/
 
