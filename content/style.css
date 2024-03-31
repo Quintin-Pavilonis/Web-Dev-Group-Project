@@ -14,19 +14,23 @@ h1 {
     margin-bottom: 50px;
 }
 
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 .table_one {
     background-color: white;
+    color:#0B1A36;
     border: 5px solid #00615E;
     padding: 15px;
     padding-bottom: 25px;
 }
 
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 .table_two {
     margin-top: 60px; 
     margin-bottom: 90px;
     padding: 15px;
     padding-bottom: 60px;
     background-color: white;
+    color:#0B1A36;
     border: 5px solid #00615E;
 }
 
@@ -50,8 +54,10 @@ td:first-child {
 td:last-child {
     width: 80%;
 }
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #0B1A36;
     padding: 8px;
     text-align: left;
 }
