@@ -69,13 +69,21 @@ th {
 
 .centered-button-container {
     text-align: center;
-    position: relative;
-    bottom: 10px; 
+    position:absolute;
+    /*bottom: 0; */
     left: 0;
     right: 0;
 }
 
 /* more color coor gen styling */
+#coor-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#coor-content {
+    padding-bottom: 120px;
+}
 /* end coor gen styling */
 
 /* nav bar start */
@@ -151,15 +159,15 @@ th {
 
 footer {
     text-align: center;
-    margin: auto;
-    clear: both;
+    /*margin: auto;
+    clear: both;*/
     padding:2px;
-    position: fixed;
-    left: 0;
+    position: absolute;
+    /*left: 0;*/
     bottom: 0;
     width: 100%;
-    height: 50;
-    border-top: #00615E;
+    height: 50px;
+    border-top: 2px solid #00615E;
 }
 
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
@@ -180,6 +188,15 @@ footer {
 
 /* homepage styling */
 
+#home-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#home-content {
+    padding-bottom: 56px;
+}
+
 body {
     background-color: #801A86;
 }
@@ -196,6 +213,16 @@ body {
 }
 
 /* about styling */
+
+#about-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#about-content {
+    padding-bottom: 56px;
+}
+
 .bio {
     padding: 40px;
 }
