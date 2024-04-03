@@ -4,25 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Printable View</title>
+<link rel="stylesheet" type="text/css" href="style.css"></link>
 <script src="script.js"></script>
-<style> 
-table { border-collapse: collapse; }
-table, th, td { border: 1px solid black; }
-</style>
 </head>
-<body>
-<h1>Color Table</h1>
-<table id="colorTable-printout">
- <!-- this is where table cells will appear -->
-</table>
-
-<h1>Alphabet Table</h1>
-<table id="alphabetTable-printout">
- <!-- this is where table cells will appear -->
-</table>
-
-<!-- need to add logo pic still -->
-
-
+<body class ="body-printout">
+    <img id="header-logo-print" src="./img/logo-color_aid.png" alt="image of Color Aid logo" >
+    <div>
+        <h1>Color Table</h1>
+        <div class="container-printout">
+            <table id="colorTable-printout">
+                <!-- this is where table cells will appear -->
+                </table>
+            
+                <h1>Alphabet Table</h1>
+                <table id="alphabetTable-printout">
+                <!-- this is where table cells will appear -->
+                </table>
+        </div>
+        
+        
 </body>
+
+
+
 </html>
