@@ -296,13 +296,3 @@ body {
     height: 15vh;
     filter: grey;
 }
-
-@media print {
-    body, div, p, span, h1, h2, h3, h4, ul, ol, li, table, tbody, thead, tfoot, th, td, pre, code, blockquote, img, strong, em, font, [src], [style] {
-        filter: grayscale(100%) !important;
-      }
-
-    @page {
-        size: letter portrait;
-    }
-}
