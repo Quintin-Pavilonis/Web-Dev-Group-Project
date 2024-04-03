@@ -183,13 +183,11 @@ function populateAlphabetTable(rowCount) {
 
 function generatePrintableView() {
     
-
     const rowCountForPrint = updateAlphabetTable();
     console.log("Row Count in generatePrintableView():", rowCountForPrint); 
     const selectedColors = getSelectedColorsFromTable();
-    
 
-    const newWindow = window.open('/content/printableView.html', '_blank');
+    const newWindow = window.open('printableView.html', '_blank');
     
     newWindow.onload = function() {
 
@@ -201,7 +199,6 @@ function generatePrintableView() {
 
     };
 }
-
 
 /// ^^^^ THIS IS FOR PRINT BUTTON
 

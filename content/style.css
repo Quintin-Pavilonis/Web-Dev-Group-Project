@@ -171,6 +171,7 @@ footer {
     bottom: 0;
     width: 100%;
     height: 6vh;
+    position: relative;
 }
 
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
@@ -292,4 +293,11 @@ body {
     width: 100%;
     height: 15vh;
     filter: grey;
+}
+
+@media print {
+    @page {
+        size: letter portrait;
+        filter: grayscale(100%) !important;
+    }
 }
