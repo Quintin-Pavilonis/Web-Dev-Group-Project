@@ -26,6 +26,7 @@ h1 {
 
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 .table_two {
+    width: auto;
     margin-top: 60px; 
     margin-bottom: 90px;
     padding: 15px;
@@ -41,8 +42,14 @@ h1 {
 }
 
 #alphabetTable td {
-    width: 20px; 
+    width: 25px; 
+    height: 25px;
     text-align: center;
+}
+
+#alphabetTable {
+    width: auto;
+    margin: auto;
 }
 
 table {
