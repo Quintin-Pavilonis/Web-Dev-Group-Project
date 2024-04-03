@@ -260,7 +260,9 @@ body {
 
 .body-printout {
     background-color: white;
-    filter: grey;
+    filter: grayscale(100%);
+    width: 8.5in;
+    height: 11in;
 }
 
 .container-printout {
