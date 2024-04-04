@@ -15,6 +15,7 @@ h1 {
     margin-bottom: 50px;
 }
 
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 .table_one {
     background-color: white;
     border: 5px solid grey;
@@ -22,13 +23,16 @@ h1 {
     padding-bottom: 25px;
 }
 
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 .table_two {
+    width: auto;
     margin-top: 60px; 
     margin-bottom: 30px;
     padding: 15px;
     padding-bottom: 30px;
     background-color: white;
     border: 5px solid grey;
+
 }
 
 .input-field {
@@ -37,8 +41,14 @@ h1 {
 }
 
 #alphabetTable td {
-    width: 20px; 
+    width: 25px; 
+    height: 25px;
     text-align: center;
+}
+
+#alphabetTable {
+    width: auto;
+    margin: auto;
 }
 
 table {
@@ -51,8 +61,10 @@ td:first-child {
 td:last-child {
     width: 80%;
 }
+
+/* contrast: https://webaim.org/resources/contrastchecker/?fcolor=0B1A36&bcolor=FFFFFF */
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #0B1A36;
     padding: 8px;
     text-align: left;
 }
@@ -78,6 +90,14 @@ th {
 }
 
 /* more color coor gen styling */
+#coor-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#coor-content {
+    padding-bottom: 6vh;
+}
 /* end coor gen styling */
 
 /* header logo start */
@@ -167,11 +187,12 @@ footer {
     text-align: center;
     clear: both;
     padding:2px;
-    position: fixed;
+    /*position: absolute;*/
     left: 0;
+    right: 0;
     bottom: 0;
-    width: 100%;
     height: 6vh;
+
 }
 
 /* contrast: https://webaim.org/resources/contrastchecker/?fcolor=FFEEF2&bcolor=801A86 */
@@ -180,17 +201,35 @@ footer {
     font-family: "Lucida Calligraphy", cursive;
 }
 
+#header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30vh;
+}  
+
 /*gen end*/
 
 /* homepage styling */
+
+#home-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#home-content {
+    padding-bottom: 6vh;
+}
 
 body {
     background-color: #801A86;
 }
 
 #welcomeBlurb {
-    margin: 5%;
-    width: 40%;
+    margin-top: 12%;
+    margin-left:5%;
+    width: 30%;
     padding: 3%;
 }
 
@@ -199,7 +238,24 @@ body {
     font-size: x-large;
 }
 
+#ex-pic {
+    width: 50%;
+    height: 50%;
+    margin-right: 5%;
+    margin-top:3%;
+}
+
 /* about styling */
+
+#about-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#about-content {
+    padding-bottom: 6vh;
+}
+
 .bio {
     padding: 40px;
 }
@@ -260,6 +316,7 @@ body {
 
 .body-printout {
     background-color: white;
+
     filter: grayscale(100%);
     width: 8.5in;
     height: 11in;
