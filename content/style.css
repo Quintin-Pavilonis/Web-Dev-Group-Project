@@ -96,7 +96,7 @@ th {
 }
 
 #coor-content {
-    padding-bottom: 120px;
+    padding-bottom: 6vh;
 }
 /* end coor gen styling */
 
@@ -187,10 +187,10 @@ footer {
     text-align: center;
     clear: both;
     padding:2px;
-    position: absolute;
-    /*left: 0;*/
+    /*position: absolute;*/
+    left: 0;
+    right: 0;
     bottom: 0;
-    width: 100%;
     height: 6vh;
 
 }
@@ -219,7 +219,7 @@ footer {
 }
 
 #home-content {
-    padding-bottom: 56px;
+    padding-bottom: 6vh;
 }
 
 body {
@@ -227,14 +227,22 @@ body {
 }
 
 #welcomeBlurb {
-    margin: 5%;
-    width: 40%;
+    margin-top: 12%;
+    margin-left:5%;
+    width: 30%;
     padding: 3%;
 }
 
 .title {
     font-family: "Lucida Calligraphy", cursive;
     font-size: x-large;
+}
+
+#ex-pic {
+    width: 50%;
+    height: 50%;
+    margin-right: 5%;
+    margin-top:3%;
 }
 
 /* about styling */
@@ -245,7 +253,7 @@ body {
 }
 
 #about-content {
-    padding-bottom: 100px;
+    padding-bottom: 6vh;
 }
 
 .bio {
