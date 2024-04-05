@@ -30,7 +30,7 @@
                 </ul>
             </li>
             <li>User friendly. View your work effortlessly before printing.</li>
-            <li>No payment required. Color Aid provieds a free, easily accessbile tool.</li>
+            <li>No payment required. Color Aid provides a free, easily accessbile tool.</li>
         </ul>
 
         <button id="toGenBtn" class="btn centered" onclick="window.location.href='./content/colorCoordinationGen.html';">Test it out!</button>
