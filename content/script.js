@@ -22,7 +22,7 @@ function updateColorTable() {
     }
     // Retrieves the selected colors and updates the color table
     const selectedColors = getSelectedColorsFromTable();
-    console.log("intial list: " + selectedColors);
+
     clearColorTable();
     populateColorTable(rowCount);
 }
@@ -90,22 +90,22 @@ function handleRadioChange(event) {
 }
 
 function initializeRadioButtons() {
-    console.log("Initializing radio buttons...");
+
     const allRadioButtons = document.querySelectorAll('input[type="radio"]');
-    console.log("Found radio buttons:", allRadioButtons);
+
     allRadioButtons.forEach((radioButton, index) => {
-        console.log("Processing radio button", index);
+
         radioButton.checked = (index === 0); // Simulate checking the first radio button on page load
         if (index === 0) {
-            console.log("Simulating trigger for first radio button...");
+
             radioButton.dispatchEvent(new Event('change')); // Simulate trigger to make first buttons color the active color on page load
         }
         radioButton.addEventListener('click', () => {
-            console.log("Radio button clicked:", radioButton.value);
+
             const selectedColor = radioButton.value;
-            console.log("Selected color:", selectedColor);
+
             activeColor = selectedColor;
-            console.log("Active color:", activeColor);
+
             allRadioButtons.forEach(radio => {
                 if (radio.value !== selectedColor) {
                     radio.checked = false;
@@ -113,7 +113,7 @@ function initializeRadioButtons() {
             });
         });
     });
-    console.log("Radio buttons initialized successfully.");
+
 }
 
 /**
@@ -177,7 +177,7 @@ function handleColorChange(event) {
     });
 
     const selectedColors = getSelectedColorsFromTable();
-    console.log("list update: " + selectedColors);
+  
 }
 
 // Initial population of color table
@@ -206,7 +206,7 @@ function updateAlphabetTable() {
     clearAlphabetTable();
     populateAlphabetTable(rowCount);
 
-    console.log("Row Count in updateAlphabetTable():", rowCount);
+
     return rowCount;
 }
 
@@ -264,7 +264,7 @@ function populateAlphabetTable(rowCount) {
  */
 function generatePrintableView() {
     const rowCountForPrint = updateAlphabetTable();
-    console.log("Row Count in generatePrintableView():", rowCountForPrint); 
+
     const selectedColors = getSelectedColorsFromTable();
 
     const newWindow = window.open('printableView.html', '_blank');
@@ -325,7 +325,7 @@ function populateColorTableFromList(selectedColors, colorTable) {
  * @param {HTMLTableElement} alphabetTable - The alphabet table element in the printable view.
  */
 function populateAlphabetTablePrint(rowCount, alphabetTable) {
-    console.log("Populating Alphabet Table with row count:", rowCount);
+
 
     const headerRow = document.createElement('tr');
     for(let i = 0; i <= rowCount; i++) {
