@@ -2,26 +2,46 @@ const colors = ['Black', 'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', '
 const rows = 10; 
 let usedColors = [];
 let lastSelectedColorIndex = 0;
+let activeColor = '';
 
+
+/// THIS IS FOR TABLE ONE
+
+/**
+ * Updates the color table based on the specified row count.
+ */
 function updateColorTable() {
+    // Retrieves the row count input element
     const rowCountInput = document.getElementById('rowCount');
+    // Parses the value of the row count input
     const rowCount = parseInt(rowCountInput.value);
-    if ( rowCount < 1 || rowCount > 10 || isNaN(rowCount)) {
+    // Validates the row count
+    if (rowCount < 1 || rowCount > 10 || isNaN(rowCount)) {
         alert('Enter a number between 1 and 10.');
         return;
     }
+    // Retrieves the selected colors and updates the color table
     const selectedColors = getSelectedColorsFromTable();
-    console.log("intial list: " + selectedColors);
+
     clearColorTable();
     populateColorTable(rowCount);
 }
 
+/**
+ * Clears the color table by removing all rows and resetting the used colors array.
+ */
 function clearColorTable() {
     const colorTableBody = document.getElementById('colorTableBody');
+    // Clears the color table body
     colorTableBody.innerHTML = '';
+    // Resets the used colors array
     usedColors = []; 
 }
 
+/**
+ * Populates the color table with the specified number of rows.
+ * @param {number} rowCount - The number of rows to populate.
+ */
 function populateColorTable(rowCount) {
     const colorTableBody = document.getElementById('colorTableBody');
 
@@ -33,10 +53,21 @@ function populateColorTable(rowCount) {
         dropdown.addEventListener('change', handleColorChange);
         populateDropdown(dropdown);
         colorCell.appendChild(dropdown);
+
+        // Create radio button
+        const radioButton = document.createElement('input');
+        radioButton.type = 'radio';
+        radioButton.name = 'colorRadio'; 
+        radioButton.value = 'radio_' + i;
+        radioButton.addEventListener('change', handleRadioChange);
+        colorCell.appendChild(radioButton);
+
         row.appendChild(colorCell);
         row.appendChild(document.createElement('td'));
         colorTableBody.appendChild(row);
     }
+
+    initializeRadioButtons();
 
     const allDropdowns = document.querySelectorAll('.color-selector');
     allDropdowns.forEach(dropdown => {
@@ -54,6 +85,41 @@ function populateColorTable(rowCount) {
     });
 }
 
+function handleRadioChange(event) {
+    activeColor = event.target.closest('tr').querySelector('.color-selector').value;
+}
+
+function initializeRadioButtons() {
+
+    const allRadioButtons = document.querySelectorAll('input[type="radio"]');
+
+    allRadioButtons.forEach((radioButton, index) => {
+
+        radioButton.checked = (index === 0); // Simulate checking the first radio button on page load
+        if (index === 0) {
+
+            radioButton.dispatchEvent(new Event('change')); // Simulate trigger to make first buttons color the active color on page load
+        }
+        radioButton.addEventListener('click', () => {
+
+            const selectedColor = radioButton.value;
+
+            activeColor = selectedColor;
+
+            allRadioButtons.forEach(radio => {
+                if (radio.value !== selectedColor) {
+                    radio.checked = false;
+                }
+            });
+        });
+    });
+
+}
+
+/**
+ * Populates the dropdown with color options.
+ * @param {HTMLSelectElement} dropdown - The dropdown element to populate.
+ */
 function populateDropdown(dropdown) {
     const startIndex = lastSelectedColorIndex % colors.length;
     const defaultColorIndex = startIndex % colors.length;
@@ -66,7 +132,6 @@ function populateDropdown(dropdown) {
         option.value = color;
         option.text = color;
 
-
         if (usedColors.includes(color) && color !== defaultColor) {
             option.disabled = true;
         }
@@ -75,30 +140,30 @@ function populateDropdown(dropdown) {
     }
     lastSelectedColorIndex++;
 
-   
-    dropdown.dataset.previousColor = defaultColor; /// where default color for dropdron is initialized
+    dropdown.dataset.previousColor = defaultColor; // Initializes the default color for the dropdown
 }
 
-// changes color when selected from dropdown
+/**
+ * Handles the color change event when a color is selected from the dropdown.
+ * @param {Event} event - The change event object.
+ */
 function handleColorChange(event) {
     const selectedColor = event.target.value;
     const previousColor = event.target.dataset.previousColor;
-    //
+
     if (previousColor !== undefined && previousColor !== selectedColor) {
         const index = usedColors.indexOf(previousColor);
         if (index !== -1) {
             usedColors.splice(index, 1);
         }
     }
-    //check if selected color is not already picked
+
     if (!usedColors.includes(selectedColor)) {
         usedColors.push(selectedColor);
     }
 
-
     event.target.dataset.previousColor = selectedColor;
 
-    //disables selected color in all other dropdowns
     const allDropdowns = document.querySelectorAll('.color-selector');
     allDropdowns.forEach(dropdown => {
         const options = dropdown.querySelectorAll('option');
@@ -112,11 +177,10 @@ function handleColorChange(event) {
     });
 
     const selectedColors = getSelectedColorsFromTable();
-    console.log("list update: " + selectedColors);
+  
 }
 
-
-
+// Initial population of color table
 populateColorTable(rows);
 
 /// ^^^^^^ THIS IS FOR TABLE ONE
@@ -127,6 +191,10 @@ populateColorTable(rows);
 /// THIS IS FOR TABLE TWO
 
 
+/**
+ * Updates the alphabet table based on the specified row count.
+ * @returns {number} The row count for the alphabet table.
+ */
 function updateAlphabetTable() {
     const rowCountInput = document.getElementById('tableTwoRowCount');
     const rowCount = parseInt(rowCountInput.value);
@@ -138,21 +206,27 @@ function updateAlphabetTable() {
     clearAlphabetTable();
     populateAlphabetTable(rowCount);
 
-    console.log("Row Count in updateAlphabetTable():", rowCount);
+
     return rowCount;
 }
 
+/**
+ * Clears the alphabet table by removing all rows.
+ */
 function clearAlphabetTable() {
     const alphabetTable = document.getElementById('alphabetTable');
     alphabetTable.innerHTML = '';
 }
 
+/**
+ * Populates the alphabet table with rows and columns based on the specified row count.
+ * @param {number} rowCount - The number of rows and columns to populate.
+ */
 function populateAlphabetTable(rowCount) {
     const alphabetTable = document.getElementById('alphabetTable');
 
-    
     const headerRow = document.createElement('tr');
-    for(let i = 0; i <= rowCount; i++) {
+    for (let i = 0; i <= rowCount; i++) {
         const cell = document.createElement('td');
         if (i > 0) {
             cell.textContent = String.fromCharCode(64 + i);
@@ -161,7 +235,6 @@ function populateAlphabetTable(rowCount) {
     }
     alphabetTable.appendChild(headerRow);
 
-  
     for (let i = 1; i <= rowCount; i++) {
         const row = document.createElement('tr');
         for (let j = 0; j <= rowCount; j++) {
@@ -171,6 +244,11 @@ function populateAlphabetTable(rowCount) {
             }
             row.appendChild(cell);
         }
+        row.addEventListener('click', function(event) {
+            if (event.target.cellIndex !== 0 && activeColor !== '') {
+                event.target.style.backgroundColor = activeColor;
+            }
+        });
         alphabetTable.appendChild(row);
     }
 }
@@ -181,24 +259,22 @@ function populateAlphabetTable(rowCount) {
 
 /// THIS IS FOR PRINT BUTTON
 
+/**
+ * Generates a printable view with the selected colors and alphabet table.
+ */
 function generatePrintableView() {
-    
-
     const rowCountForPrint = updateAlphabetTable();
-    console.log("Row Count in generatePrintableView():", rowCountForPrint); 
+
     const selectedColors = getSelectedColorsFromTable();
 
     const newWindow = window.open('printableView.html', '_blank');
 
-    
     newWindow.onload = function() {
-
         const colorTable = newWindow.document.getElementById('colorTable-printout');
         populateColorTableFromList(selectedColors, colorTable);
         
         const alphabetTable = newWindow.document.getElementById('alphabetTable-printout');
         populateAlphabetTablePrint(rowCountForPrint, alphabetTable);
-
     };
 }
 
@@ -209,6 +285,10 @@ function generatePrintableView() {
 
 /// THIS IS FOR PRINT TABLE ONE
 
+/**
+ * Retrieves the selected colors from the color table.
+ * @returns {string[]} An array of selected colors.
+ */
 function getSelectedColorsFromTable() {
     const selectedColors = [];
     const allDropdowns = document.querySelectorAll('.color-selector');
@@ -221,8 +301,12 @@ function getSelectedColorsFromTable() {
     return selectedColors;
 }
 
+/**
+ * Populates the color table in the printable view with the selected colors.
+ * @param {string[]} selectedColors - An array of selected colors.
+ * @param {HTMLTableElement} colorTable - The color table element in the printable view.
+ */
 function populateColorTableFromList(selectedColors, colorTable) {
-
     colorTable.innerHTML = '';
 
     selectedColors.forEach(color => {
@@ -235,15 +319,13 @@ function populateColorTableFromList(selectedColors, colorTable) {
     });
 }
 
-/// ^^^^ THIS IS FOR PRINT TABLE ONE
-
-
-
-/// THIS IS FOR PRINT TABLE TWO
-
+/**
+ * Populates the alphabet table in the printable view with rows and columns.
+ * @param {number} rowCount - The number of rows and columns to populate.
+ * @param {HTMLTableElement} alphabetTable - The alphabet table element in the printable view.
+ */
 function populateAlphabetTablePrint(rowCount, alphabetTable) {
 
-    console.log("Populating Alphabet Table with row count:", rowCount);
 
     const headerRow = document.createElement('tr');
     for(let i = 0; i <= rowCount; i++) {
@@ -255,7 +337,6 @@ function populateAlphabetTablePrint(rowCount, alphabetTable) {
     }
     alphabetTable.appendChild(headerRow);
 
-  
     for (let i = 1; i <= rowCount; i++) {
         const row = document.createElement('tr');
         for (let j = 0; j <= rowCount; j++) {
