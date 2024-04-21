@@ -14,6 +14,7 @@
     <div class="navbar">
         <ul>
             <li><a href="./content/colorCoordinationGen.html">Color Coordination Generator</a></li>
+            <li><a href="./content/colorSelection.html">Color Selection</a></li>
             <li><a href="./content/about.html">About</a></li>
         </ul>
     </div>

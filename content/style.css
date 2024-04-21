@@ -361,3 +361,26 @@ body {
     height: 15vh;
     filter: grey;
 }
+
+/*color selection styling*/
+
+#sel-container {
+    position:relative;
+    min-height: 100vh;
+}
+
+#sel-content {
+    padding-bottom: 6vh;
+}
+
+#addColor {
+    padding: 3%;
+}
+
+#editColor {
+    padding: 3%;
+}
+
+#deleteColor {
+    padding: 3%;
+}
