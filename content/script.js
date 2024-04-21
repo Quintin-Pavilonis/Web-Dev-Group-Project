@@ -3,6 +3,7 @@ const rows = 10;
 let usedColors = [];
 let lastSelectedColorIndex = 0;
 let activeColor = '';
+let coords = [];
 
 
 /// THIS IS FOR TABLE ONE
@@ -54,6 +55,9 @@ function populateColorTable(rowCount) {
         populateDropdown(dropdown);
         colorCell.appendChild(dropdown);
 
+        //allocate coords array
+        coords[i] = [];
+
         // Create radio button
         const radioButton = document.createElement('input');
         radioButton.type = 'radio';
@@ -63,7 +67,10 @@ function populateColorTable(rowCount) {
         colorCell.appendChild(radioButton);
 
         row.appendChild(colorCell);
-        row.appendChild(document.createElement('td'));
+        const coordsCell = document.createElement('td');
+        let coordsCellId = "coordsCell_" + i;
+        coordsCell.setAttribute('id', coordsCellId);
+        row.appendChild(coordsCell);
         colorTableBody.appendChild(row);
     }
 
@@ -242,11 +249,37 @@ function populateAlphabetTable(rowCount) {
             if (j === 0) {
                 cell.textContent = i;
             }
+            //set index of cell
+            let index = String.fromCharCode(64 + j) + i;
+            cell.setAttribute('id', index);
             row.appendChild(cell);
         }
         row.addEventListener('click', function(event) {
             if (event.target.cellIndex !== 0 && activeColor !== '') {
                 event.target.style.backgroundColor = activeColor;
+
+                //adding to array
+                let indexToAdd = event.target.getAttribute('id');
+                let radioButtonChecked = document.querySelector('input[name="colorRadio"]:checked').value;
+                let indexNumArray = radioButtonChecked.split('_');
+                let indexNum = indexNumArray[1];
+                //no duplicates
+                coords.forEach(function (item) {
+                    if (item.includes(indexToAdd)) {
+                        let position = item.indexOf(indexToAdd);
+                        item.splice(position, 1);
+                    }
+                });
+                coords[indexNum].push(indexToAdd);
+                //sort
+                coords[indexNum].sort(Intl.Collator('en', {numeric:true, sensitivity:'base'}).compare);
+                //printing array
+                let coordsRow = document.getElementById("coordsCell_" + indexNum);
+                let arrayString = "";
+                coords[indexNum].forEach(function (elem) {
+                    arrayString += elem + " ";
+                })
+                coordsRow.textContent = arrayString;
             }
         });
         alphabetTable.appendChild(row);
@@ -309,14 +342,20 @@ function getSelectedColorsFromTable() {
 function populateColorTableFromList(selectedColors, colorTable) {
     colorTable.innerHTML = '';
 
-    selectedColors.forEach(color => {
+    for (let i = 0; i < selectedColors.length; i++) {
         const row = document.createElement('tr');
         const colorCell = document.createElement('td');
-        colorCell.textContent = color;
+        colorCell.textContent = selectedColors[i];
         row.appendChild(colorCell);
-        row.appendChild(document.createElement('td'));
+        const coordsCell = document.createElement('td');
+        let coordString = "";
+        coords[i].forEach (function (elem) {
+            coordString += elem + " ";
+        });
+        coordsCell.textContent = coordString;
+        row.appendChild(coordsCell);
         colorTable.appendChild(row);
-    });
+    }
 }
 
 /**
