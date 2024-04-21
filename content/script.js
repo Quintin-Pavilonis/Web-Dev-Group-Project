@@ -342,14 +342,20 @@ function getSelectedColorsFromTable() {
 function populateColorTableFromList(selectedColors, colorTable) {
     colorTable.innerHTML = '';
 
-    selectedColors.forEach(color => {
+    for (let i = 0; i < selectedColors.length; i++) {
         const row = document.createElement('tr');
         const colorCell = document.createElement('td');
-        colorCell.textContent = color;
+        colorCell.textContent = selectedColors[i];
         row.appendChild(colorCell);
-        row.appendChild(document.createElement('td'));
+        const coordsCell = document.createElement('td');
+        let coordString = "";
+        coords[i].forEach (function (elem) {
+            coordString += elem + " ";
+        });
+        coordsCell.textContent = coordString;
+        row.appendChild(coordsCell);
         colorTable.appendChild(row);
-    });
+    }
 }
 
 /**
