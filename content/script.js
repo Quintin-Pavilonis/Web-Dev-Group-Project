@@ -3,9 +3,11 @@ const rows = 10;
 let usedColors = [];
 let lastSelectedColorIndex = 0;
 let activeColor = '';
+let coords = [];
+let cellColorMap = {}; 
 
 
-/// THIS IS FOR TABLE ONE
+/// TABLE ONE
 
 /**
  * Updates the color table based on the specified row count.
@@ -20,7 +22,7 @@ function updateColorTable() {
         alert('Enter a number between 1 and 10.');
         return;
     }
-    // Retrieves the selected colors and updates the color table
+    // Retrieves the selected colors and updates the color table, needs to be re worked maybe?
     const selectedColors = getSelectedColorsFromTable();
 
     clearColorTable();
@@ -54,6 +56,9 @@ function populateColorTable(rowCount) {
         populateDropdown(dropdown);
         colorCell.appendChild(dropdown);
 
+        //allocate coords array
+        coords[i] = [];
+
         // Create radio button
         const radioButton = document.createElement('input');
         radioButton.type = 'radio';
@@ -63,7 +68,10 @@ function populateColorTable(rowCount) {
         colorCell.appendChild(radioButton);
 
         row.appendChild(colorCell);
-        row.appendChild(document.createElement('td'));
+        const coordsCell = document.createElement('td');
+        let coordsCellId = "coordsCell_" + i;
+        coordsCell.setAttribute('id', coordsCellId);
+        row.appendChild(coordsCell);
         colorTableBody.appendChild(row);
     }
 
@@ -125,6 +133,8 @@ function populateDropdown(dropdown) {
     const defaultColorIndex = startIndex % colors.length;
     const defaultColor = colors[defaultColorIndex];
 
+    console.log("Starting populateDropdown with default color:", defaultColor); // Log initial default color
+
     for (let i = 0; i < colors.length; i++) {
         const colorIndex = (startIndex + i) % colors.length;
         const color = colors[colorIndex];
@@ -139,8 +149,9 @@ function populateDropdown(dropdown) {
         dropdown.appendChild(option);
     }
     lastSelectedColorIndex++;
-
     dropdown.dataset.previousColor = defaultColor; // Initializes the default color for the dropdown
+
+    console.log("Dropdown initialized with colors, usedColors after initialization:", usedColors);
 }
 
 /**
@@ -148,47 +159,95 @@ function populateDropdown(dropdown) {
  * @param {Event} event - The change event object.
  */
 function handleColorChange(event) {
-    const selectedColor = event.target.value;
-    const previousColor = event.target.dataset.previousColor;
+    const dropdown = event.target;
+    const newColor = dropdown.value;
+    const previousColor = dropdown.dataset.previousColor;
+    const rowIndex = dropdown.closest('tr').rowIndex - 1;  // Skips header row
 
-    if (previousColor !== undefined && previousColor !== selectedColor) {
+    if (previousColor && previousColor !== newColor) {
+        // Update usedColors management
         const index = usedColors.indexOf(previousColor);
         if (index !== -1) {
             usedColors.splice(index, 1);
         }
+        if (!usedColors.includes(newColor)) {
+            usedColors.push(newColor);
+        }
+
+        // Transfer cell IDs to the new color key in cellColorMap
+        if (cellColorMap[previousColor]) {
+            cellColorMap[newColor] = cellColorMap[newColor] || [];
+            cellColorMap[previousColor].forEach(cellId => {
+                const cell = document.getElementById(cellId);
+                if (cell) {
+                    cell.style.backgroundColor = newColor;
+                    cell.setAttribute('data-color', newColor);
+                }
+            });
+            cellColorMap[newColor].push(...cellColorMap[previousColor]);
+            delete cellColorMap[previousColor];
+
+            // Update coordinate display for colors
+            updateCoordsDisplay(newColor, previousColor, rowIndex);
+        }
+
+        // Update dropdowns to reflect changes
+        updateDropdowns();
+
+        dropdown.dataset.previousColor = newColor;
     }
+}
 
-    if (!usedColors.includes(selectedColor)) {
-        usedColors.push(selectedColor);
-    }
-
-    event.target.dataset.previousColor = selectedColor;
-
+function updateCoordsDisplay(color) {
     const allDropdowns = document.querySelectorAll('.color-selector');
-    allDropdowns.forEach(dropdown => {
-        const options = dropdown.querySelectorAll('option');
-        options.forEach(option => {
-            if (option.value === selectedColor) {
+    allDropdowns.forEach((dropdown, index) => {
+        if (dropdown.value === color) {
+            // Retrieve the array of coords and sort in color table
+            let coordsArray = cellColorMap[color] || [];
+            coordsArray.sort((a, b) => {
+                // Extract letters and numbers
+                let matchA = a.match(/([A-Z]+)(\d+)/);
+                let matchB = b.match(/([A-Z]+)(\d+)/);
+                let letterA = matchA[1], numberA = parseInt(matchA[2], 10);
+                let letterB = matchB[1], numberB = parseInt(matchB[2], 10);
+
+                // First compare letters then numbers
+                if (letterA === letterB) {
+                    return numberA - numberB;
+                }
+                return letterA.localeCompare(letterB);
+            });
+
+            let coordsText = coordsArray.join(" ");
+            let coordsCellId = "coordsCell_" + index;
+            let coordsCell = document.getElementById(coordsCellId);
+            coordsCell.textContent = coordsText;
+        }
+    });
+}
+
+function updateDropdowns() {
+    document.querySelectorAll('.color-selector').forEach(dropdown => {
+        const currentColor = dropdown.value;
+        dropdown.querySelectorAll('option').forEach(option => {
+            if (usedColors.includes(option.value) && option.value !== currentColor) {
                 option.disabled = true;
             } else {
-                option.disabled = usedColors.includes(option.value);
+                option.disabled = false;
             }
         });
     });
-
-    const selectedColors = getSelectedColorsFromTable();
-  
 }
 
 // Initial population of color table
 populateColorTable(rows);
 
-/// ^^^^^^ THIS IS FOR TABLE ONE
+/// END TABLE ONE
 
 
 
 
-/// THIS IS FOR TABLE TWO
+///  TABLE TWO
 
 
 /**
@@ -225,39 +284,99 @@ function clearAlphabetTable() {
 function populateAlphabetTable(rowCount) {
     const alphabetTable = document.getElementById('alphabetTable');
 
+    // Clear the table first
+    alphabetTable.innerHTML = '';
+
+    // Create and append the header row
     const headerRow = document.createElement('tr');
     for (let i = 0; i <= rowCount; i++) {
-        const cell = document.createElement('td');
+        const headerCell = document.createElement('td');
         if (i > 0) {
-            cell.textContent = String.fromCharCode(64 + i);
+            headerCell.textContent = String.fromCharCode(64 + i); // Assigns A, B, C, etc., to headers
         }
-        headerRow.appendChild(cell);
+        headerRow.appendChild(headerCell);
     }
     alphabetTable.appendChild(headerRow);
 
+    // Create and append the rest of the rows and cells
     for (let i = 1; i <= rowCount; i++) {
         const row = document.createElement('tr');
         for (let j = 0; j <= rowCount; j++) {
             const cell = document.createElement('td');
             if (j === 0) {
-                cell.textContent = i;
+                cell.textContent = i; // Row label 1, 2, 3, etc.
+            } else {
+                let index = String.fromCharCode(64 + j) + i; // Create IDs like A1, B1, etc.
+                cell.setAttribute('id', index);
             }
             row.appendChild(cell);
         }
-        row.addEventListener('click', function(event) {
-            if (event.target.cellIndex !== 0 && activeColor !== '') {
-                event.target.style.backgroundColor = activeColor;
-            }
-        });
         alphabetTable.appendChild(row);
     }
+
+    // Attach a single click event listener to the table for handling cell color changes
+    alphabetTable.addEventListener('click', function(event) {
+        let target = event.target;
+        if (target.tagName === 'TD' && target.cellIndex !== 0 && target.parentNode.rowIndex !== 0 && activeColor) {
+            target.style.backgroundColor = activeColor;
+            target.setAttribute('data-color', activeColor);
+    
+            let indexToAdd = target.getAttribute('id');
+    
+            // Manage cellColorMap: remove from old color, add to new
+            Object.keys(cellColorMap).forEach(color => {
+                if (cellColorMap[color].includes(indexToAdd) && color !== activeColor) {
+                    let index = cellColorMap[color].indexOf(indexToAdd);
+                    if (index > -1) {
+                        cellColorMap[color].splice(index, 1); // Remove from old color array
+                        updateCoordsDisplay(color); // Update HTML display for old color
+                    }
+                }
+            });
+    
+            // Add to new color if not already present
+            if (!cellColorMap[activeColor]) {
+                cellColorMap[activeColor] = [];
+            }
+            if (!cellColorMap[activeColor].includes(indexToAdd)) {
+                cellColorMap[activeColor].push(indexToAdd);
+            }
+            updateCoordsDisplay(activeColor); // Update HTML display for new color
+    
+            console.log("Colored cell at:", indexToAdd, "with color:", activeColor);
+            console.log("Updated cellColorMap:", cellColorMap);
+        }
+    });
+}
+
+function updateCellColorsOnDropdownChange(dropdown) {
+    const newColor = dropdown.value;
+    const previousColor = dropdown.dataset.previousColor;
+
+    if (previousColor && cellColorMap[previousColor]) {
+        cellColorMap[previousColor].forEach(cellId => {
+            let cell = document.getElementById(cellId);
+            if (cell) {
+                cell.style.backgroundColor = newColor;
+                cell.setAttribute('data-color', newColor);
+            }
+        });
+
+        // Move the array of cell IDs from the old color to the new color in cellColorMap
+        cellColorMap[newColor] = (cellColorMap[newColor] || []).concat(cellColorMap[previousColor]);
+        delete cellColorMap[previousColor];
+    }
+
+    dropdown.dataset.previousColor = newColor;
+    console.log(`Color changed from ${previousColor} to ${newColor}. Updated cells and cellColorMap.`);
 }
 
 
-/// ^^^^^ THIS IS TABLE TWO
+/// END TABLE TWO
 
 
-/// THIS IS FOR PRINT BUTTON
+
+///  PRINT BUTTON
 
 /**
  * Generates a printable view with the selected colors and alphabet table.
@@ -280,10 +399,10 @@ function generatePrintableView() {
 
 
 
-/// ^^^^ THIS IS FOR PRINT BUTTON
+/// END PRINT BUTTON
 
 
-/// THIS IS FOR PRINT TABLE ONE
+/// PRINT TABLE ONE
 
 /**
  * Retrieves the selected colors from the color table.
@@ -309,15 +428,41 @@ function getSelectedColorsFromTable() {
 function populateColorTableFromList(selectedColors, colorTable) {
     colorTable.innerHTML = '';
 
-    selectedColors.forEach(color => {
+    // Loop over each selected color
+    for (let i = 0; i < selectedColors.length; i++) {
+        const color = selectedColors[i];
         const row = document.createElement('tr');
         const colorCell = document.createElement('td');
         colorCell.textContent = color;
         row.appendChild(colorCell);
-        row.appendChild(document.createElement('td'));
+        
+        const coordsCell = document.createElement('td');
+        let coordsList = cellColorMap[color] || [];
+        
+        // Sort the coordinates on color table print out
+        coordsList.sort((a, b) => {
+            let matchA = a.match(/([A-Z]+)(\d+)/);
+            let matchB = b.match(/([A-Z]+)(\d+)/);
+            let letterA = matchA[1], numberA = parseInt(matchA[2], 10);
+            let letterB = matchB[1], numberB = parseInt(matchB[2], 10);
+            return letterA.localeCompare(letterB) || numberA - numberB;
+        });
+
+        // Create a space-separated string of coordinates and update the cell text
+        let coordString = coordsList.join(" ");
+        coordsCell.textContent = coordString;
+        row.appendChild(coordsCell);
+
         colorTable.appendChild(row);
-    });
+    }
 }
+
+
+
+/// END PRINT TABLE ONE
+
+
+///  PRINT TABLE TWO
 
 /**
  * Populates the alphabet table in the printable view with rows and columns.
@@ -351,4 +496,4 @@ function populateAlphabetTablePrint(rowCount, alphabetTable) {
 }
 
 
-/// ^^^^^^ THIS IS FOR PRINT TABLE TWO
+/// END PRINT TABLE TWO
