@@ -24,6 +24,12 @@
     <!--interface 1: add a new color-->
     <div id="addColor" class="p_dText_lBack">
         <h2 class="title">Add a Color</h2>
+        <label for="color_name">Enter a color name:</label>
+        <input type="text" id="color_name" class="input-field" maxlength="20">
+        <label for="hex_value">Enter hex value:</label>
+        <input type="text" id="hex_value" class="input-field" placeholder="#123456">
+        <button class="btn" onclick="addColor()">Add Color</button>
+        <div id="add_response"></div>
     </div>
 
     <!--interface 2: edit exisiting color-->
