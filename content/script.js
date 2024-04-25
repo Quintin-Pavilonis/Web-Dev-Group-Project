@@ -497,3 +497,35 @@ function populateAlphabetTablePrint(rowCount, alphabetTable) {
 
 
 /// END PRINT TABLE TWO
+
+//color selection
+function addColor() {
+    // retrieve inputs for adding a color
+    const colorNameInput = document.getElementById('color_name');
+    const hexValueInput = document.getElementById('hex_value');
+    // Parses the value of the row count input
+    const colorName = colorNameInput.value;
+    const hexValue = hexValueInput.value;
+    //check for validity
+    let pound = hexValue.substring(0, 1);
+    if (colorName == '' || hexValue == '' || (!(pound == '#')) || hexValue.length != 7) {
+        document.getElementById('add_response').innerHTML = "Incorrect value/s entered.";
+    }
+    else {
+    //send to database
+    //MAKE SURE TO PUT CORRECT EID IN URL !!
+    const addColorUrl = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+    fetch(addColorUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Connection failed");
+            }
+            return response.text();
+        }) .then(data => {
+            document.getElementById('add_response').innerHTML = data;
+        });
+        //clear fields
+        colorNameInput.value = '';
+        hexValueInput.value = '';
+    }
+}
