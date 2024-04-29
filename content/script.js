@@ -529,3 +529,21 @@ function addColor() {
         hexValueInput.value = '';
     }
 }
+
+function deleteColor() {
+    // retrieve inputs for deleting color
+    const deletedColorNameInput = document.getElementById("delete_color");
+    const deletedColorHexInput = document.getElementById("deleted_color_hex");
+    // Parse the value of row count input 
+    const deletedColorName = deletedColorNameInput.value;
+    const deletedColorHex = deletedColorHexInput.value;
+
+    let pound = deletedColorHex.substring(0, 1);
+    if (deletedColorName == '' || deletedColorHex == '' || (!(pound == '#')) || hexValue.length != 7) {
+        document.getElementById('delete_response').innerHTML = "Incorrect value/s entered.";
+    }
+    else {
+
+    }
+}
+

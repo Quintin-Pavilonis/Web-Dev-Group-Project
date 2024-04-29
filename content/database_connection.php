@@ -1,8 +1,8 @@
 <?php
 $servername = "faure";
 //change these to proper EID !!!
-$username = "cwagner4";
-$database = "cwagner4";
+$username = "kade5";
+$database = "kade5";
 //change to 'colors' for actual table !!
 $table = "colors_test";
 include 'password.php';
@@ -60,6 +60,24 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
     }
     else {
         echo "Color name or hex value already exists.";
+    }
+}
+// $search_term will be either color name or hex value
+function deleteColor($conn, $table, $search_term) {
+    // check if the color exists in the database 
+    $sql = "SELECT * FROM $table WHERE color_name = '$search_term' OR hex_value = '$search_term'";
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0) {
+        // Delete the color from the database
+        $sql_delete = "DELETE FROM $table WHERE color_name = '$search_term' OR hex_value = '$search_term'";
+        if($conn->query($sql_delete) === TRUE) {
+            echo "Color '$search_term' deleted successfully.";
+        } else {
+            echo "Error deleting color '$search_term': " . $conn->error;
+        }
+    } else {
+        echo "Color or hex value '$search_term' not found in the database";
     }
 }
 
