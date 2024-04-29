@@ -62,22 +62,16 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
         echo "Color name or hex value already exists.";
     }
 }
-// $search_term will be either color name or hex value
-function deleteColor($conn, $table, $search_term) {
-    // check if the color exists in the database 
-    $sql = "SELECT * FROM $table WHERE color_name = '$search_term' OR hex_value = '$search_term'";
-    $result = $conn->query($sql);
+// for deleting a color 
+if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
+    $deleted_color_name = $_GET['delete_color_name'];
+    $deleted_color_hex = $_GET['delete_color_hex'];
 
-    if($result->num_rows > 0) {
-        // Delete the color from the database
-        $sql_delete = "DELETE FROM $table WHERE color_name = '$search_term' OR hex_value = '$search_term'";
-        if($conn->query($sql_delete) === TRUE) {
-            echo "Color '$search_term' deleted successfully.";
-        } else {
-            echo "Error deleting color '$search_term': " . $conn->error;
-        }
+    $sql_delete = "DELETE FROM $table WHERE color_name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
+    if($conn->query($sql_delete) === TRUE) {
+        echo "Color deleted successfully.";
     } else {
-        echo "Color or hex value '$search_term' not found in the database";
+        echo "Error deleting color: " . $conn->error;
     }
 }
 

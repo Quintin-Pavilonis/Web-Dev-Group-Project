@@ -539,11 +539,25 @@ function deleteColor() {
     const deletedColorHex = deletedColorHexInput.value;
 
     let pound = deletedColorHex.substring(0, 1);
-    if (deletedColorName == '' || deletedColorHex == '' || (!(pound == '#')) || hexValue.length != 7) {
+    if (deletedColorName == '' || deletedColorHex == '' || (!(pound == '#')) || deletedColorHex.length != 7) {
         document.getElementById('delete_response').innerHTML = "Incorrect value/s entered.";
     }
     else {
-
+        //send to the database 
+        // make sure to change EID 
+        const deleteColorUrl = 'https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?delete_color_name=${deletedColorName}&delete_hex_value=${deletedColorHex.substring(1, 7)}';
+        fetch(deleteColorUrl)
+            .then(response => {
+                if(!response.ok) {
+                    throw new Error("Connection failed");
+                }
+                return response.text;
+            }) .then(data => {
+                document.getElementById("delete_response").innerHTML = data;
+            });
+            // clear fields 
+            deletedColorName = '';
+            deletedColorHex = '';
     }
 }
 
