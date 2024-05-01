@@ -4,7 +4,7 @@ $servername = "faure";
 $username = "kade5";
 $database = "kade5";
 //change to 'colors' for actual table !!
-$table = "colors_test";
+$table = "colors";
 include 'password.php';
 
 $conn = new mysqli($servername, $username, $password, $database);
