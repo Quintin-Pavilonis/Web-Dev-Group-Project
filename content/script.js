@@ -542,6 +542,9 @@ function deleteColor() {
     if (deletedColorName == '' || deletedColorHex == '' || (!(pound == '#')) || deletedColorHex.length != 7) {
         document.getElementById('delete_response').innerHTML = "Incorrect value/s entered.";
     }
+    if(colors.length < 2){
+        document.getElementById('delete_response').innerHTML = "Cannot delete color: only 2 remain in the database."
+    }
     else {
         //send to the database 
         // make sure to change EID 
