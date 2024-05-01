@@ -561,3 +561,26 @@ function deleteColor() {
     }
 }
 
+function showColors(colorsInDatabase) {
+    const colorsContainer = document.getElementById('showColors');
+    const showColorsButton = document.getElementById('show-colors-button');
+
+    if(colorsContainer.style.display === 'none') {
+        colorsContainer.innerHTML = '';
+    
+    
+        colors.forEach(color => {
+            const colorItem = document.createElement('li');
+            colorItem.textContent = color;
+            colorsContainer.appendChild(colorItem);
+        });
+    
+        colorsContainer.style.display = 'block';
+        showColorsButton.textContent = 'Hide Colors';
+    } else {
+        colorsContainer.style.display = 'none';
+        showColorsButton.textContent = 'Show Colors';
+
+    }
+}
+

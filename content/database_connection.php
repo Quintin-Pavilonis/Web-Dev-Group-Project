@@ -67,11 +67,27 @@ if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
     $deleted_color_name = $_GET['delete_color_name'];
     $deleted_color_hex = $_GET['delete_color_hex'];
 
-    $sql_delete = "DELETE FROM $table WHERE color_name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
-    if($conn->query($sql_delete) === TRUE) {
-        echo "Color deleted successfully.";
-    } else {
-        echo "Error deleting color: " . $conn->error;
+    //check if name already exists
+    $color_exists = false;
+    foreach ($colors as $c) {
+        if ($c == $deleted_color_name) {
+            $color_exists = true;
+        }
+    }
+    //check if hex already exists
+    $hex_exists = false;
+    foreach ($hexs as $h) {
+        if ($h == $deleted_color_hex) {
+            $hex_exists = true;
+        }
+    }
+    if(($color_exists) && ($hex_exists)) {
+        $sql_delete = "DELETE FROM $table WHERE color_name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
+        if($conn->query($sql_delete) === TRUE) {
+            echo "Color deleted successfully.";
+        } else {
+            echo "Error deleting color: " . $conn->error;
+        }
     }
 }
 
