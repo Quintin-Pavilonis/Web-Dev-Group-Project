@@ -514,7 +514,7 @@ function addColor() {
     else {
     //send to database
     //MAKE SURE TO PUT CORRECT EID IN URL !!
-    const addColorUrl = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+    const addColorUrl = "https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
     fetch(addColorUrl)
         .then(response => {
             if (!response.ok) {
@@ -548,13 +548,13 @@ function deleteColor() {
     else {
         //send to the database 
         // make sure to change EID 
-        const deleteColorUrl = 'https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?delete_color_name=${deletedColorName}&delete_hex_value=${deletedColorHex.substring(1, 7)}';
+        const deleteColorUrl = "https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?delete_color_name=" + deletedColorName + "delete_color_hex= %23" + deletedColorHex.substring(1, 7);
         fetch(deleteColorUrl)
             .then(response => {
                 if(!response.ok) {
                     throw new Error("Connection failed");
                 }
-                return response.text;
+                return response.text();
             }) .then(data => {
                 document.getElementById("delete_response").innerHTML = data;
             });
