@@ -25,7 +25,7 @@ $hexs = array();
 while($row = $result -> fetch_assoc()) {
     //if columns are different names change these !!
     $ids[] = $row['id'];
-    $colors[] = $row['color_name'];
+    $colors[] = $row['name'];
     $hexs[] = $row['hex_value'];
 }
 
@@ -50,7 +50,7 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
     }
     
     if ((!$color_exists) && (!$hex_exists)) {
-        $sql_add = "INSERT INTO $table (color_name, hex_value) VALUES ('$color_name', '$hex_value')";
+        $sql_add = "INSERT INTO $table (name, hex_value) VALUES ('$color_name', '$hex_value')";
         if ($conn -> query($sql_add) === true) {
             echo "Color added successfully.";
         }
@@ -67,6 +67,11 @@ if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
     $deleted_color_name = $_GET['delete_color_name'];
     $deleted_color_hex = $_GET['delete_color_hex'];
 
+    $colorCounter = 0;
+    foreach($colors as $c) {
+        $colorCounter += 1;
+    }
+
     //check if name already exists
     $color_exists = false;
     foreach ($colors as $c) {
@@ -81,13 +86,16 @@ if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
             $hex_exists = true;
         }
     }
-    if(($color_exists) && ($hex_exists)) {
-        $sql_delete = "DELETE FROM $table WHERE color_name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
-        if($conn->query($sql_delete) === TRUE) {
+
+     if(($color_exists) && ($hex_exists) && ($colorCounter > 2) ) {
+        $sql_delete = "DELETE FROM $table WHERE name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
+        if($conn->query($sql_delete) === true) {
             echo "Color deleted successfully.";
         } else {
             echo "Error deleting color: " . $conn->error;
         }
+    } else {
+        echo "Cannot delete color: the database needs more than 2 colors.";
     }
 }
 
