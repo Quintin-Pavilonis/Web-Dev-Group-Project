@@ -645,8 +645,8 @@ function deleteColor() {
                 document.getElementById("delete_response").innerHTML = data;
             });
             // clear fields 
-            deletedColorName = '';
-            deletedColorHex = '';
+            deletedColorNameInput.value = '';
+            deletedColorHexInput.value = '';
     }
 }
 
@@ -656,6 +656,7 @@ function showColors(colorsInDatabase) {
 
     if(colorsContainer.style.display === 'none') {
         colorsContainer.innerHTML = '';
+
 
         colors.forEach(color => {
             const colorItem = document.createElement('li');
@@ -672,22 +673,36 @@ function showColors(colorsInDatabase) {
     }
 }
 
+function editColor() {
+    const oldColorNameInput = document.getElementById('old_color_name');
+    const newColorNameInput = document.getElementById('new_color_name');
+    const newHexValueInput = document.getElementById('new_hex_value');
 
-function getDatabaseColors() {
-    const grabColorsURL = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?grab_colors=true";
-    fetch (grabColorsURL)
-        .then(response => {
-            if(!response.ok) {
-                throw new Error("Connection failed");
-            }
-            return response.json();
-        }) .then(data => {
-            const databaseColors = [];
-            console.log(data);
-            data.forEach(function(elem) {
-                let name_of_color = elem["color_name"];
-                databaseColors.push(name_of_color);
+    const oldColorName = oldColorNameInput.value;
+    const newColorName = newColorNameInput.value;
+    const newHexValue = newHexValueInput.value;
+
+    let pound = newHexValue.substring(0, 1);
+    if (oldColorName === '' || newColorName === '' || newHexValue === '' || !(pound === '#') || newHexValue.length !== 7) {
+        document.getElementById('edit_response').innerHTML = "Incorrect value/s entered.";
+    } else {
+        const editColorUrl = `http://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
+        fetch(editColorUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Connection failed");
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('edit_response').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error editing color:', error);
             });
-            console.log(databaseColors);
-        });
+
+        oldColorNameInput.value = '';
+        newColorNameInput.value = '';
+        newHexValueInput.value = '';
+    }
 }
