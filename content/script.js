@@ -1,10 +1,63 @@
-const colors = ['Black', 'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', 'Gray'];
+//const colors = ['Black', 'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', 'Gray'];
+const colors = [];
 const rows = 10; 
 let usedColors = [];
 let lastSelectedColorIndex = 0;
 let activeColor = '';
 let coords = [];
 let cellColorMap = {}; 
+
+
+
+/// PULL COLORS FROM DATABASE
+
+window.addEventListener('load', getDatabaseColors);  // this loads the colors array first so table otherwise table loads empty
+
+function getDatabaseColors() {
+    const grabColorsURL = "http://localhost/groupProject/content/database_connection.php?grab_colors=true";
+    fetch(grabColorsURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Connection failed");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const databaseColors = data.colors; 
+            console.log(databaseColors);
+            // Update the colors array
+            colors.splice(0, colors.length, ...databaseColors); // Replace existing colors with database colors
+            console.log(colors); // Log the updated colors array
+  
+        })
+        .catch(error => {
+            console.error("Error fetching database colors:", error);
+        });
+}
+
+// Update the "Update Color Table" button click event listener
+document.getElementById('updateColorTableButton').addEventListener('click', function() {
+    const selectedColors = getSelectedColorsFromTable();
+    clearColorTable();
+    populateColorTable(selectedColors.length); // Use the length of selected colors
+});
+
+
+function updateColorsArray(colors) {
+    // Update the colors array with the fetched colors
+    colors.forEach(color => {
+        // Add each color to the colors array if it doesn't already exist
+        if (!colors.includes(color)) {
+            colors.push(color);
+        }
+    });
+
+    
+    updateColorTable(); 
+}
+
+// END OF PULL COLORS FROM DATABASE
+
 
 
 /// TABLE ONE
@@ -22,7 +75,7 @@ function updateColorTable() {
         alert('Enter a number between 1 and 10.');
         return;
     }
-    // Retrieves the selected colors and updates the color table, needs to be re worked maybe?
+    // Retrieves the selected colors and updates the color table
     const selectedColors = getSelectedColorsFromTable();
 
     clearColorTable();
@@ -133,7 +186,6 @@ function populateDropdown(dropdown) {
     const defaultColorIndex = startIndex % colors.length;
     const defaultColor = colors[defaultColorIndex];
 
-    console.log("Starting populateDropdown with default color:", defaultColor); // Log initial default color
 
     for (let i = 0; i < colors.length; i++) {
         const colorIndex = (startIndex + i) % colors.length;
@@ -151,7 +203,6 @@ function populateDropdown(dropdown) {
     lastSelectedColorIndex++;
     dropdown.dataset.previousColor = defaultColor; // Initializes the default color for the dropdown
 
-    console.log("Dropdown initialized with colors, usedColors after initialization:", usedColors);
 }
 
 /**
@@ -195,6 +246,9 @@ function handleColorChange(event) {
         updateDropdowns();
 
         dropdown.dataset.previousColor = newColor;
+
+
+        activeColor = newColor;
     }
 }
 
@@ -497,3 +551,129 @@ function populateAlphabetTablePrint(rowCount, alphabetTable) {
 
 
 /// END PRINT TABLE TWO
+
+//color selection
+function addColor() {
+    // retrieve inputs for adding a color
+    const colorNameInput = document.getElementById('color_name');
+    const hexValueInput = document.getElementById('hex_value');
+    // Parses the value of the row count input
+    const colorName = colorNameInput.value;
+    const hexValue = hexValueInput.value;
+    //check for validity
+    let pound = hexValue.substring(0, 1);
+    if (colorName == '' || hexValue == '' || (!(pound == '#')) || hexValue.length != 7) {
+        document.getElementById('add_response').innerHTML = "Incorrect value/s entered.";
+    }
+    else {
+    //send to database
+    //MAKE SURE TO PUT CORRECT EID IN URL !!
+    const addColorUrl = "http://localhost/groupProject/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+    fetch(addColorUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Connection failed");
+            }
+            return response.text();
+        }) .then(data => {
+            document.getElementById('add_response').innerHTML = data;
+        });
+        //clear fields
+        colorNameInput.value = '';
+        hexValueInput.value = '';
+    }
+}
+
+function deleteColor() {
+    // retrieve inputs for deleting color
+    const deletedColorNameInput = document.getElementById("delete_color");
+    const deletedColorHexInput = document.getElementById("deleted_color_hex");
+    // Parse the value of row count input 
+    const deletedColorName = deletedColorNameInput.value;
+    const deletedColorHex = deletedColorHexInput.value;
+
+    let pound = deletedColorHex.substring(0, 1);
+    if (deletedColorName == '' || deletedColorHex == '' || (!(pound == '#')) || deletedColorHex.length != 7) {
+        document.getElementById('delete_response').innerHTML = "Incorrect value/s entered.";
+    }
+    if(colors.length < 2){
+        document.getElementById('delete_response').innerHTML = "Cannot delete color: only 2 remain in the database."
+    }
+    else {
+        //send to the database 
+        // make sure to change EID 
+        const deleteColorUrl = "http://localhost/groupProject/content/database_connection.php?delete_color_name=" + deletedColorName + "&delete_color_hex=%23" + deletedColorHex.substring(1, 7);
+        fetch(deleteColorUrl)
+            .then(response => {
+                if(!response.ok) {
+                    throw new Error("Connection failed");
+                }
+                return response.text();
+            }) .then(data => {
+                document.getElementById("delete_response").innerHTML = data;
+            });
+            // clear fields 
+            deletedColorNameInput.value = '';
+            deletedColorHexInput.value = '';
+    }
+}
+
+function showColors(colorsInDatabase) {
+    const colorsContainer = document.getElementById('showColors');
+    const showColorsButton = document.getElementById('show-colors-button');
+
+    if(colorsContainer.style.display === 'none') {
+        colorsContainer.innerHTML = '';
+    
+    
+        colors.forEach(color => {
+            const colorItem = document.createElement('li');
+            colorItem.textContent = color;
+            colorsContainer.appendChild(colorItem);
+        });
+    
+        colorsContainer.style.display = 'block';
+        showColorsButton.textContent = 'Hide Colors';
+    } else {
+        colorsContainer.style.display = 'none';
+        showColorsButton.textContent = 'Show Colors';
+
+    }
+}
+
+function editColor() {
+    const oldColorNameInput = document.getElementById('old_color_name');
+    const newColorNameInput = document.getElementById('new_color_name');
+    const newHexValueInput = document.getElementById('new_hex_value');
+
+    const oldColorName = oldColorNameInput.value;
+    const newColorName = newColorNameInput.value;
+    const newHexValue = newHexValueInput.value;
+
+    let pound = newHexValue.substring(0, 1);
+    if (oldColorName === '' || newColorName === '' || newHexValue === '' || !(pound === '#') || newHexValue.length !== 7) {
+        document.getElementById('edit_response').innerHTML = "Incorrect value/s entered.";
+    } else {
+        const editColorUrl = `http://localhost/groupProject/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
+        fetch(editColorUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Connection failed");
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('edit_response').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error editing color:', error);
+            });
+
+        oldColorNameInput.value = '';
+        newColorNameInput.value = '';
+        newHexValueInput.value = '';
+    }
+}
+
+
+
