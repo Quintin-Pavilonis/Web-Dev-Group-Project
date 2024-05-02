@@ -57,6 +57,58 @@ function updateColorsArray(colors) {
 // END OF PULL COLORS FROM DATABASE
 
 
+
+/// PULL COLORS FROM DATABASE
+
+window.addEventListener('load', getDatabaseColors);  // this loads the colors array first so table otherwise table loads empty
+
+function getDatabaseColors() {
+    const grabColorsURL = "http://localhost/groupProject/content/database_connection.php?grab_colors=true";
+    fetch(grabColorsURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Connection failed");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const databaseColors = data.colors; 
+            console.log(databaseColors);
+            // Update the colors array
+            colors.splice(0, colors.length, ...databaseColors); // Replace existing colors with database colors
+            console.log(colors); // Log the updated colors array
+  
+        })
+        .catch(error => {
+            console.error("Error fetching database colors:", error);
+        });
+}
+
+// Update the "Update Color Table" button click event listener
+document.getElementById('updateColorTableButton').addEventListener('click', function() {
+    const selectedColors = getSelectedColorsFromTable();
+    clearColorTable();
+    populateColorTable(selectedColors.length); // Use the length of selected colors
+});
+
+
+function updateColorsArray(colors) {
+    // Update the colors array with the fetched colors
+    colors.forEach(color => {
+        // Add each color to the colors array if it doesn't already exist
+        if (!colors.includes(color)) {
+            colors.push(color);
+        }
+    });
+
+    
+    updateColorTable(); 
+}
+
+// END OF PULL COLORS FROM DATABASE
+
+
+
 /// TABLE ONE
 
 /**
@@ -183,7 +235,6 @@ function populateDropdown(dropdown) {
     const defaultColorIndex = startIndex % colors.length;
     const defaultColor = colors[defaultColorIndex];
 
-    console.log("Starting populateDropdown with default color:", defaultColor); // Log initial default color
 
     for (let i = 0; i < colors.length; i++) {
         const colorIndex = (startIndex + i) % colors.length;
@@ -201,7 +252,6 @@ function populateDropdown(dropdown) {
     lastSelectedColorIndex++;
     dropdown.dataset.previousColor = defaultColor; // Initializes the default color for the dropdown
 
-    console.log("Dropdown initialized with colors, usedColors after initialization:", usedColors);
 }
 
 /**
@@ -245,6 +295,9 @@ function handleColorChange(event) {
         updateDropdowns();
 
         dropdown.dataset.previousColor = newColor;
+
+
+        activeColor = newColor;
     }
 }
 
@@ -564,7 +617,7 @@ function addColor() {
     else {
     //send to database
     //MAKE SURE TO PUT CORRECT EID IN URL !!
-    const addColorUrl = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+    const addColorUrl = "http://localhost/groupProject/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
     fetch(addColorUrl)
         .then(response => {
             if (!response.ok) {
@@ -577,42 +630,6 @@ function addColor() {
         //clear fields
         colorNameInput.value = '';
         hexValueInput.value = '';
-    }
-}
-
-// edit color
-function editColor() {
-    // three inputs for editing color
-    const editColorIdInput = document.getElementById('edit_color_select'); 
-    const newColorNameInput = document.getElementById('new_color_name');
-    const newHexValueInput = document.getElementById('new_hex_value');
-
-    // parse and check input values
-    const colorId = editColorIdInput.value;
-    const newColorName = newColorNameInput.value;
-    const newHexValue = newHexValueInput.value;
-
-    // Check for hex code validity
-    let pound = newHexValue.substring(0, 1);
-    if (newColorName === '' || newHexValue === '' || !(pound === '#') || newHexValue.length !== 7) {
-        document.getElementById('edit_response').innerHTML = "Incorrect value/s entered.";
-    } else {
-
-        // change your EID
-        const editColorUrl = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?edit_color=1&edit_color_id=" + colorId + "&new_color_name=" + newColorName + "&new_hex_value=%23" + newHexValue.substring(1,7);
-        fetch(editColorUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Connection failed");
-            }
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById('edit_response').innerHTML = data;
-        });
-
-        newColorNameInput.value = '';
-        newHexValueInput.value = '';
     }
 }
 
@@ -656,13 +673,15 @@ function showColors(colorsInDatabase) {
 
     if(colorsContainer.style.display === 'none') {
         colorsContainer.innerHTML = '';
-
+    
+    
 
         colors.forEach(color => {
             const colorItem = document.createElement('li');
             colorItem.textContent = color;
             colorsContainer.appendChild(colorItem);
         });
+    
 
         colorsContainer.style.display = 'block';
         showColorsButton.textContent = 'Hide Colors';
@@ -706,3 +725,4 @@ function editColor() {
         newHexValueInput.value = '';
     }
 }
+
