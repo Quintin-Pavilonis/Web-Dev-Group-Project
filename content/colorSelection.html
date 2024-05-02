@@ -22,32 +22,32 @@
     <h1 class="heading"> Color Selection</h1>
 
     <!--interface 1: add a new color-->
-    <div id="addColor" class="p_dText_lBack">
+    <div id="addColor" class="p_dText_lBack double_border">
         <h2 class="title">Add a Color</h2>
         <label for="color_name">Enter a color name:</label>
-        <input type="text" id="color_name" class="input-field" maxlength="20">
+        <input type="text" id="color_name" class="input-field" maxlength="20" placeholder="Ex: cyan">
         <label for="hex_value">Enter hex value:</label>
-        <input type="text" id="hex_value" class="input-field" placeholder="#123456">
+        <input type="text" id="hex_value" class="input-field" placeholder="Ex: #00ffff">
         <button class="btn" onclick="addColor()">Add Color</button>
         <div id="add_response"></div>
     </div>
 
     <!--interface 2: edit exisiting color-->
-    <div id="editColor" class="p_dText_lBack">
+    <div id="editColor" class="p_dText_lBack double_border">
         <h2 class="title">Edit a Color</h2>
         <label for="old_color_name">Old color name:</label>
-        <input type="text" id="old_color_name" class="input-field" maxlength="20">
+        <input type="text" id="old_color_name" class="input-field" maxlength="20" placeholder="Ex: cyan">
         <label for="new_color_name">New color name:</label>
-        <input type="text" id="new_color_name" class="input-field" maxlength="20">
+        <input type="text" id="new_color_name" class="input-field" maxlength="20" placeholder="Ex: cyan">
         <label for="new_hex_value">New hex value:</label>
-        <input type="text" id="new_hex_value" class="input-field" placeholder="#123456">
+        <input type="text" id="new_hex_value" class="input-field" placeholder="Ex: #00ffff">
         <button class="btn" onclick="editColor()">Update Color</button>
         <div id="edit_response"></div>
     </div>
     
 
     <!--interface 3: delete a color-->
-    <div id="deleteColor" class="p_dText_lBack">
+    <div id="deleteColor" class="p_dText_lBack double_border">
         <h2 class="title">Delete a Color</h2>
         <label for="color_name">Enter the color name: </label>
         <input type="text" id="delete_color" class="input-field" maxlength="20" placeholder="Ex: cyan">
