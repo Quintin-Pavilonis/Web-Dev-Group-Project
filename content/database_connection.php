@@ -87,7 +87,7 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
     }
 }
 // for deleting a color 
-if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
+if(isset($_GET['delete_color_name']) || isset($_GET['delete_color_hex'])) {
     $deleted_color_name = $_GET['delete_color_name'];
     $deleted_color_hex = $_GET['delete_color_hex'];
 
