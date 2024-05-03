@@ -23,7 +23,7 @@ function updatePlaceholderText() {
 
 function getDatabaseColors() {
 
-    const grabColorsURL = "https://cs.colstate.edu:4444/~quinpav/TeamOne/content/database_connection.php?grab_colors=true";
+    const grabColorsURL = "https://cs.colostate.edu:4444/~quinpav/TeamOne/content/database_connection.php?grab_colors=true";
     fetch(grabColorsURL)
         .then(response => {
             if (!response.ok) {
@@ -581,7 +581,7 @@ function addColor() {
     //send to database
     //MAKE SURE TO PUT CORRECT EID IN URL !!
 
-    const addColorUrl = "https://cs.colstate.edu:4444/~quinpav/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+    const addColorUrl = "https://cs.colostate.edu:4444/~quinpav/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
 
     fetch(addColorUrl)
         .then(response => {
@@ -617,7 +617,7 @@ function deleteColor() {
         //send to the database 
         // make sure to change EID 
 
-        const deleteColorUrl = "https://cs.colstate.edu:4444/~quinpav/TeamOne/content/database_connection.php?delete_color_name=" + deletedColorName + "&delete_color_hex=%23" + deletedColorHex.substring(1, 7);
+        const deleteColorUrl = "https://cs.colostate.edu:4444/~quinpav/TeamOne/content/database_connection.php?delete_color_name=" + deletedColorName + "&delete_color_hex=%23" + deletedColorHex.substring(1, 7);
 
         fetch(deleteColorUrl)
             .then(response => {
@@ -670,7 +670,7 @@ function editColor() {
         document.getElementById('edit_response').innerHTML = "Incorrect value/s entered.";
     } else {
 
-        const editColorUrl = `https://cs.colstate.edu:4444/~quinpav/TeamOne/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
+        const editColorUrl = `https://cs.colostate.edu:4444/~quinpav/TeamOne/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
 
         fetch(editColorUrl)
             .then(response => {
