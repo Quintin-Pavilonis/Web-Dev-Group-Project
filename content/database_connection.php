@@ -111,7 +111,7 @@ if(isset($_GET['delete_color_name']) || isset($_GET['delete_color_hex'])) {
         }
     }
 
-     if(($color_exists) && ($hex_exists) && ($colorCounter > 2) ) {
+     if(($color_exists) && ($hex_exists) || ($colorCounter > 2) ) {
         $sql_delete = "DELETE FROM $table WHERE name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
         if($conn->query($sql_delete) === true) {
             echo "Color deleted successfully.";
