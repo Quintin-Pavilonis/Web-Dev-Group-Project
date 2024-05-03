@@ -1,30 +1,8 @@
 <?php
-
-
-// just for testing locally, remove when remote
-/*if (isset($_SERVER['HTTP_ORIGIN'])) {
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Max-Age: 86400');    // cache for 1 day
-}*/
-
-// remote when remote
-/*if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
-
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-
-    exit(0);
-}*/
-
-
-$servername = "localhost";
+$servername = "faure";
 //change these to proper EID !!!
-$username = "quinpav";
-$database = "quinpav";
+$username = "kade5";
+$database = "kade5";
 //change to 'colors' for actual table !!
 $table = "colors";
 include 'password.php';
@@ -43,8 +21,6 @@ $result = $conn -> query($sql);
 $ids = array();
 $colors = array();
 $hexs = array();
-
-
 
 while($row = $result -> fetch_assoc()) {
     //if columns are different names change these !!
@@ -87,7 +63,7 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
     }
 }
 // for deleting a color 
-if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
+if(isset($_GET['delete_color_name']) || isset($_GET['delete_color_hex'])) {
     $deleted_color_name = $_GET['delete_color_name'];
     $deleted_color_hex = $_GET['delete_color_hex'];
 
@@ -111,22 +87,29 @@ if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
         }
     }
 
-     if(($color_exists) && ($hex_exists) && ($colorCounter > 2) ) {
-        $sql_delete = "DELETE FROM $table WHERE name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
-        if($conn->query($sql_delete) === true) {
-            echo "Color deleted successfully.";
-        } else {
-            echo "Error deleting color: " . $conn->error;
-        }
-    } else {
+    $sql = "SELECT name FROM $table"; 
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 2) {
+        if(($color_exists) || ($hex_exists)) {
+           $sql_delete = "DELETE FROM $table WHERE name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
+           if($conn->query($sql_delete) === true) {
+               echo "Color deleted successfully.";
+           } else {
+               echo "Error deleting color: " . $conn->error;
+           }
+       } 
+    }
+    else {
         echo "Cannot delete color: the database needs more than 2 colors.";
     }
 }
 
 
-
 // Editing color
+
 if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_GET['new_hex_value'])) {
+
     $oldColorName = $_GET['old_color_name']; 
     $newName = $_GET['new_color_name'];
     $newHex = $_GET['new_hex_value'];
@@ -141,17 +124,23 @@ if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_
     }
 
     $stmt->close();
+
 }
 
 
+
+
+
 // Fetch colors from the database
+
 $sql = "SELECT name FROM $table"; 
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+
     $colors = array();
-    
     while ($row = $result->fetch_assoc()) {
+
         $colors[] = $row["name"];
     }
     // Return colors as JSON
@@ -159,8 +148,5 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 results";
 }
-
-
-
 $conn -> close();
 ?>
