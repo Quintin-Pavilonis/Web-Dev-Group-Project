@@ -1,8 +1,10 @@
 <?php
 $servername = "faure";
 //change these to proper EID !!!
+
 $username = "kade5";
 $database = "kade5";
+
 //change to 'colors' for actual table !!
 $table = "colors";
 include 'password.php';
@@ -148,5 +150,7 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 results";
 }
+
+
 $conn -> close();
 ?>
