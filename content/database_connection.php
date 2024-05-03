@@ -21,7 +21,7 @@
 }*/
 
 
-$servername = "localhost";
+$servername = "faure";
 //change these to proper EID !!!
 $username = "quinpav";
 $database = "quinpav";
