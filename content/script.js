@@ -11,8 +11,10 @@ let cellColorMap = {};
 
 window.addEventListener('load', getDatabaseColors);  // this loads the colors array first so table otherwise table loads empty
 
+
 function getDatabaseColors() {
-    const grabColorsURL = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?grab_colors=true";
+
+    const grabColorsURL = "https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?grab_colors=true";
     fetch(grabColorsURL)
         .then(response => {
             if (!response.ok) {
@@ -40,7 +42,6 @@ document.getElementById('updateColorTableButton').addEventListener('click', func
     populateColorTable(selectedColors.length); // Use the length of selected colors
 });
 
-
 function updateColorsArray(colors) {
     // Update the colors array with the fetched colors
     colors.forEach(color => {
@@ -50,12 +51,9 @@ function updateColorsArray(colors) {
         }
     });
 
-
     updateColorTable(); 
 }
-
 // END OF PULL COLORS FROM DATABASE
-
 
 
 /// TABLE ONE
@@ -73,7 +71,7 @@ function updateColorTable() {
         alert('Enter a number between 1 and 10.');
         return;
     }
-    // Retrieves the selected colors and updates the color table
+    // Retrieves the selected colors and updates the color table, needs to be re worked maybe?
     const selectedColors = getSelectedColorsFromTable();
 
     clearColorTable();
@@ -184,6 +182,7 @@ function populateDropdown(dropdown) {
     const defaultColorIndex = startIndex % colors.length;
     const defaultColor = colors[defaultColorIndex];
 
+    console.log("Starting populateDropdown with default color:", defaultColor); // Log initial default color
 
     for (let i = 0; i < colors.length; i++) {
         const colorIndex = (startIndex + i) % colors.length;
@@ -201,6 +200,7 @@ function populateDropdown(dropdown) {
     lastSelectedColorIndex++;
     dropdown.dataset.previousColor = defaultColor; // Initializes the default color for the dropdown
 
+    console.log("Dropdown initialized with colors, usedColors after initialization:", usedColors);
 }
 
 /**
@@ -244,7 +244,6 @@ function handleColorChange(event) {
         updateDropdowns();
 
         dropdown.dataset.previousColor = newColor;
-
 
         activeColor = newColor;
     }
@@ -566,7 +565,9 @@ function addColor() {
     else {
     //send to database
     //MAKE SURE TO PUT CORRECT EID IN URL !!
-    const addColorUrl = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+
+    const addColorUrl = "https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?add_color_name=" + colorName + "&add_hex_value=%23" + hexValue.substring(1,7);
+
     fetch(addColorUrl)
         .then(response => {
             if (!response.ok) {
@@ -600,7 +601,9 @@ function deleteColor() {
     else {
         //send to the database 
         // make sure to change EID 
-        const deleteColorUrl = "https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?delete_color_name=" + deletedColorName + "&delete_color_hex=%23" + deletedColorHex.substring(1, 7);
+
+        const deleteColorUrl = "https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?delete_color_name=" + deletedColorName + "&delete_color_hex=%23" + deletedColorHex.substring(1, 7);
+
         fetch(deleteColorUrl)
             .then(response => {
                 if(!response.ok) {
@@ -654,7 +657,9 @@ function editColor() {
     if (oldColorName === '' || newColorName === '' || newHexValue === '' || !(pound === '#') || newHexValue.length !== 7) {
         document.getElementById('edit_response').innerHTML = "Incorrect value/s entered.";
     } else {
-        const editColorUrl = `https://cs.colostate.edu:4444/~cwagner4/TeamOne/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
+
+        const editColorUrl = `https://cs.colostate.edu:4444/~kade5/TeamOne/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
+
         fetch(editColorUrl)
             .then(response => {
                 if (!response.ok) {
@@ -668,7 +673,6 @@ function editColor() {
             .catch(error => {
                 console.error('Error editing color:', error);
             });
-
         oldColorNameInput.value = '';
         newColorNameInput.value = '';
         newHexValueInput.value = '';
