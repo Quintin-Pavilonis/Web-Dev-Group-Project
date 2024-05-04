@@ -1,5 +1,6 @@
 //const colors = ['Black', 'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', 'Gray'];
 const colors = [];
+const colors_hexs = [];
 const rows = 10; 
 let usedColors = [];
 let lastSelectedColorIndex = 0;
@@ -24,7 +25,11 @@ function getDatabaseColors() {
             const databaseColors = data.colors; 
             console.log(databaseColors);
             // Update the colors array
-            colors.splice(0, colors.length, ...databaseColors); // Replace existing colors with database colors
+            //colors.splice(0, colors.length, ...databaseColors); // Replace existing colors with database colors
+            for (let i =0; i < databaseColors.length; i++) {
+                colors_hexs[i] = [databaseColors[i][0], databaseColors[i][1]];
+                colors[i] = databaseColors[i][0];
+            }
             console.log(colors); // Log the updated colors array
 
         })
@@ -370,7 +375,15 @@ function populateAlphabetTable(rowCount) {
     alphabetTable.addEventListener('click', function(event) {
         let target = event.target;
         if (target.tagName === 'TD' && target.cellIndex !== 0 && target.parentNode.rowIndex !== 0 && activeColor) {
-            target.style.backgroundColor = activeColor;
+            //find position in array
+            let arrayIndex;
+            for (let i=0; i < colors_hexs.length; i++) {
+                if (colors_hexs[i][0] == activeColor) {
+                    arrayIndex = i;
+                }
+            }
+            let colorHex = colors_hexs[arrayIndex][1];
+            target.style.backgroundColor = colorHex;
             target.setAttribute('data-color', activeColor);
     
             let indexToAdd = target.getAttribute('id');
@@ -409,7 +422,15 @@ function updateCellColorsOnDropdownChange(dropdown) {
         cellColorMap[previousColor].forEach(cellId => {
             let cell = document.getElementById(cellId);
             if (cell) {
-                cell.style.backgroundColor = newColor;
+                //find position in array
+                let arrayIndex;
+                for (let i=0; i < colors_hexs.length; i++) {
+                    if (colors_hexs[i][0] == activeColor) {
+                        arrayIndex = i;
+                    }
+                }
+                let colorHex = colors_hexs[arrayIndex][1];
+                cell.style.backgroundColor = colorHex;
                 cell.setAttribute('data-color', newColor);
             }
         });
@@ -574,7 +595,8 @@ function addColor() {
             }
             return response.text();
         }) .then(data => {
-            document.getElementById('add_response').innerHTML = data;
+            dataArray = data.split("{");
+            document.getElementById('add_response').innerHTML = dataArray[0];
         });
         //clear fields
         colorNameInput.value = '';
@@ -608,7 +630,8 @@ function deleteColor() {
                 }
                 return response.text();
             }) .then(data => {
-                document.getElementById("delete_response").innerHTML = data;
+                dataArray = data.split("{");
+                document.getElementById("delete_response").innerHTML = dataArray[0];
             });
             // clear fields 
             deletedColorNameInput.value = '';
@@ -623,13 +646,24 @@ function showColors(colorsInDatabase) {
     if(colorsContainer.style.display === 'none') {
         colorsContainer.innerHTML = '';
     
-    
+        for(let i = 0; i < colors_hexs.length; i++) {
+            const row = document.createElement('tr');
+            const colorItem = document.createElement('td');
+            const hexItem = document.createElement('td');
 
-        colors.forEach(color => {
+            colorItem.textContent = colors_hexs[i][0];
+            hexItem.textContent = colors_hexs[i][1];
+
+            row.appendChild(colorItem);
+            row.appendChild(hexItem);
+            colorsContainer.appendChild(row);
+        }
+
+        /*colors.forEach(color => {
             const colorItem = document.createElement('li');
             colorItem.textContent = color;
             colorsContainer.appendChild(colorItem);
-        });
+        });*/
     
 
         colorsContainer.style.display = 'block';
@@ -663,7 +697,8 @@ function editColor() {
                 return response.text();
             })
             .then(data => {
-                document.getElementById('edit_response').innerHTML = data;
+                dataArray = data.split("{");
+                document.getElementById('edit_response').innerHTML = dataArray[0];
             })
             .catch(error => {
                 console.error('Error editing color:', error);

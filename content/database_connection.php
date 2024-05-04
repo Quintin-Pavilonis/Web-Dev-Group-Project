@@ -64,8 +64,9 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
         echo "Color name or hex value already exists.";
     }
 }
+
 // for deleting a color 
-if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
+if(isset($_GET['delete_color_name']) || isset($_GET['delete_color_hex'])) {
     $deleted_color_name = $_GET['delete_color_name'];
     $deleted_color_hex = $_GET['delete_color_hex'];
 
@@ -89,14 +90,20 @@ if(isset($_GET['delete_color_name']) && isset($_GET['delete_color_hex'])) {
         }
     }
 
-     if(($color_exists) && ($hex_exists) && ($colorCounter > 2) ) {
-        $sql_delete = "DELETE FROM $table WHERE name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
-        if($conn->query($sql_delete) === true) {
-            echo "Color deleted successfully.";
-        } else {
-            echo "Error deleting color: " . $conn->error;
-        }
-    } else {
+    $sql = "SELECT name FROM $table"; 
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 2) {
+        if(($color_exists) || ($hex_exists)) {
+           $sql_delete = "DELETE FROM $table WHERE name = '$deleted_color_name' OR hex_value = '$deleted_color_hex'";
+           if($conn->query($sql_delete) === true) {
+               echo "Color deleted successfully.";
+           } else {
+               echo "Error deleting color: " . $conn->error;
+           }
+       } 
+    }
+    else {
         echo "Cannot delete color: the database needs more than 2 colors.";
     }
 }
@@ -122,15 +129,15 @@ if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_
 }
 
 
-// Fetch colors from the database
-$sql = "SELECT name FROM $table"; 
+// Fetch colors from the database and hexs
+$sql = "SELECT name, hex_value FROM $table"; 
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $colors = array();
     
     while ($row = $result->fetch_assoc()) {
-        $colors[] = $row["name"];
+        $colors[] = array($row["name"], $row["hex_value"]);
     }
     // Return colors as JSON
     echo json_encode(["colors" => $colors]);
