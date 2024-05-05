@@ -13,6 +13,7 @@ let cellColorMap = {};
 window.addEventListener('load', getDatabaseColors);  // this loads the colors array first so table otherwise table loads empty
 
 
+
 // change placeholder text on color generation page
 function updatePlaceholderText() {
     const inputField = document.getElementById('rowCount');
@@ -37,6 +38,7 @@ function getDatabaseColors() {
             // Update the colors array
             colors.splice(0, colors.length, ...databaseColors); // Replace existing colors with database colors
             console.log(colors); // Log the updated colors array
+
 
 
             updatePlaceholderText();
@@ -617,6 +619,7 @@ function deleteColor() {
         //send to the database 
         // make sure to change EID 
 
+
         const deleteColorUrl = "https://cs.colostate.edu:4444/~quinpav/TeamOne/content/database_connection.php?delete_color_name=" + deletedColorName + "&delete_color_hex=%23" + deletedColorHex.substring(1, 7);
 
         fetch(deleteColorUrl)
@@ -669,6 +672,7 @@ function editColor() {
     if (oldColorName === '' || newColorName === '' || newHexValue === '' || !(pound === '#') || newHexValue.length !== 7) {
         document.getElementById('edit_response').innerHTML = "Incorrect value/s entered.";
     } else {
+
 
         const editColorUrl = `https://cs.colostate.edu:4444/~quinpav/TeamOne/content/database_connection.php?old_color_name=${oldColorName}&new_color_name=${newColorName}&new_hex_value=%23${newHexValue.substring(1,7)}`;
 
