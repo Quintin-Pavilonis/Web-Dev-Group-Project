@@ -1,4 +1,25 @@
 <?php
+
+// just quinpav beacuse I dont know why
+/*if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}*/
+
+// remote when remote
+/*if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+
+    exit(0);
+}*/
+
+
 $servername = "faure";
 //change these to proper EID !!!
 
@@ -128,9 +149,6 @@ if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_
     $stmt->close();
 
 }
-
-
-
 
 
 // Fetch colors from the database
