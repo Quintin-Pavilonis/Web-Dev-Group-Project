@@ -1,8 +1,30 @@
 <?php
+
+// just quinpav beacuse I dont know why
+/*if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}*/
+
+/*if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+
+    exit(0);
+}*/
+
+
 $servername = "faure";
 //change these to proper EID !!!
-$username = "cwagner4";
-$database = "cwagner4";
+
+$username = "kade5";
+$database = "kade5";
+
 //change to 'colors' for actual table !!
 $table = "colors";
 include 'password.php';
@@ -21,8 +43,6 @@ $result = $conn -> query($sql);
 $ids = array();
 $colors = array();
 $hexs = array();
-
-
 
 while($row = $result -> fetch_assoc()) {
     //if columns are different names change these !!
@@ -109,9 +129,10 @@ if(isset($_GET['delete_color_name']) || isset($_GET['delete_color_hex'])) {
 }
 
 
-
 // Editing color
+
 if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_GET['new_hex_value'])) {
+
     $oldColorName = $_GET['old_color_name']; 
     $newName = $_GET['new_color_name'];
     $newHex = $_GET['new_hex_value'];
@@ -126,24 +147,30 @@ if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_
     }
 
     $stmt->close();
+
 }
+
 
 
 // Fetch colors from the database and hexs
 $sql = "SELECT name, hex_value FROM $table"; 
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+
     $colors = array();
-    
     while ($row = $result->fetch_assoc()) {
+
         $colors[] = array($row["name"], $row["hex_value"]);
+
     }
     // Return colors as JSON
     echo json_encode(["colors" => $colors]);
 } else {
     echo "0 results";
 }
+
 
 $conn -> close();
 ?>
