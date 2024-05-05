@@ -7,7 +7,6 @@
     header('Access-Control-Max-Age: 86400');    // cache for 1 day
 }*/
 
-// remote when remote
 /*if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
@@ -85,6 +84,7 @@ if (isset($_GET['add_color_name']) && isset($_GET['add_hex_value'])) {
         echo "Color name or hex value already exists.";
     }
 }
+
 // for deleting a color 
 if(isset($_GET['delete_color_name']) || isset($_GET['delete_color_hex'])) {
     $deleted_color_name = $_GET['delete_color_name'];
@@ -151,9 +151,10 @@ if (isset($_GET['old_color_name']) && isset($_GET['new_color_name']) && isset($_
 }
 
 
-// Fetch colors from the database
 
-$sql = "SELECT name FROM $table"; 
+// Fetch colors from the database and hexs
+$sql = "SELECT name, hex_value FROM $table"; 
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -161,7 +162,8 @@ if ($result->num_rows > 0) {
     $colors = array();
     while ($row = $result->fetch_assoc()) {
 
-        $colors[] = $row["name"];
+        $colors[] = array($row["name"], $row["hex_value"]);
+
     }
     // Return colors as JSON
     echo json_encode(["colors" => $colors]);
